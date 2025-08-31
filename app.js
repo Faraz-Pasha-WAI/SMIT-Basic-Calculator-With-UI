@@ -9,7 +9,7 @@ function appendvalue(val) {
   let isOpt = false;
   let isLastOpt = false;
 
-  for (let i = 0; i < opt.length; i++) {
+  for (let i = 0; i < opt.length; i++) {                                                                                     
     if (val === opt[i]) {
       isOpt = true;
     }
@@ -24,11 +24,14 @@ function appendvalue(val) {
   }
 
  
-  if (justCalculated === true && isOpt === false) {
+  if (forClearScreen && !isOpt) {
     display.value = "";
   }
-  justCalculated = false;
+  forClearScreen = false;
 
+  if (display.value === "" && isOpt && val !== "-") {
+    return;
+  }
 
   display.value += val;
 }
@@ -44,5 +47,17 @@ function deletevalue() {
 }
 
 function calculation() {
-    display.value = eval(display.value);
+  let expression = display.value;
+  let opt = ["+", "-", "*", "/", "%", "."];
+
+  let lastChar = expression.slice(-1);
+  if (opt.includes(lastChar)) {
+    expression = expression.slice(0, -1);
+  }
+
+  if (expression !== "") {
+    display.value = eval(expression);
+    forClearScreen = true; 
+  }
+  
 }
