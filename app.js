@@ -1,15 +1,14 @@
-let display = document.getElementById("display");
+var display = document.getElementById("display");
 
-let forClearScreen = false;
+var forClearScreen = false;
 
 function appendvalue(val) {
-  let lastValue = display.value.slice(-1);
-  let opt = ["+", "-", "*", "/", "%", "."];
+  var lastValue = display.value.slice(-1);
+  var opt = ["+", "-", "*", "/", "%", "."];
+  var isOpt = false;
+  var isLastOpt = false;
 
-  let isOpt = false;
-  let isLastOpt = false;
-
-  for (let i = 0; i < opt.length; i++) {                                                                                     
+  for (var i = 0; i < opt.length; i++) {                                                                                     
     if (val === opt[i]) {
       isOpt = true;
     }
@@ -23,6 +22,19 @@ function appendvalue(val) {
     return;
   }
 
+  if (val === ".") {
+    if (display.value === "") {
+      display.value = "0.";
+      return;
+    }
+
+
+    for (var i = display.value.length - 1; i >= 0; i--) {
+      var ch = display.value[i];
+      if (opt.includes(ch) && ch !== ".") break; 
+      if (ch === ".") return; 
+    }
+  }
  
   if (forClearScreen && !isOpt) {
     display.value = "";
@@ -36,8 +48,6 @@ function appendvalue(val) {
   display.value += val;
 }
 
-
-
 function clearvalue() {
   display.value = "";
 }
@@ -47,10 +57,10 @@ function deletevalue() {
 }
 
 function calculation() {
-  let expression = display.value;
-  let opt = ["+", "-", "*", "/", "%", "."];
+  var expression = display.value;
+  var opt = ["+", "-", "*", "/", "%", "."];
 
-  let lastChar = expression.slice(-1);
+  var lastChar = expression.slice(-1);
   if (opt.includes(lastChar)) {
     expression = expression.slice(0, -1);
   }
